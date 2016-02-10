@@ -247,6 +247,10 @@
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
 
+  <Target Name="Build">
+    <Csc Sources="@(Compile)"></Csc>    
+  </Target>  
+
   <Target Name="PublishToFileSystem"
         DependsOnTargets="PipelinePreDeployCopyAllFilesToOneFolder">
     <Error Condition="'$(PublishDestination)'==''"
