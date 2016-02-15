@@ -9,9 +9,9 @@
     <ProductVersion>
     </ProductVersion>
     
-    <SolutionName>MySolution</SolutionName>
+    <SolutionName>ProductService</SolutionName>
     <SolutionFile>$(SolutionName).sln</SolutionFile>
-    <ProjectName>MyProject</ProjectName>
+    <ProjectName>ProductService</ProjectName>
     <ProjectFile>$(ProjectName)\$(ProjectName).csproj</ProjectFile>
         
     <SchemaVersion>2.0</SchemaVersion>
