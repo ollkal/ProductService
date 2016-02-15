@@ -8,6 +8,12 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>
     </ProductVersion>
+    
+    <SolutionName>MySolution</SolutionName>
+    <SolutionFile>$(SolutionName).sln</SolutionFile>
+    <ProjectName>MyProject</ProjectName>
+    <ProjectFile>$(ProjectName)\$(ProjectName).csproj</ProjectFile>
+        
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{E7221363-D16B-47D8-9FDE-330F3DDFCFD9}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
@@ -246,6 +252,21 @@
   <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
     <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
   </Target>
+  
+  <Target Name="Build" DependsOnTargets="BuildPackage;CopyOutput" />
+
+  <Target Name="BuildPackage">
+      <MSBuild Projects="$(SolutionFile)" ContinueOnError="false" Targets="Rebuild" Properties="Configuration=$(Configuration)" />
+      <MSBuild Projects="$(ProjectFile)" ContinueOnError="false" Targets="Package" Properties="Configuration=$(Configuration)" />
+  </Target>
+
+  <Target Name="CopyOutput">
+      <ItemGroup>
+          <PackagedFiles Include="$(ProjectName)\obj\$(Configuration)\Package\PackageTmp\**\*.*"/>
+      </ItemGroup>
+      <Copy SourceFiles="@(PackagedFiles)" DestinationFiles="@(PackagedFiles->'\\build02\wwwroot\$(ProjectName)\$(Configuration)\%(RecursiveDir)%(Filename)%(Extension)')"/>
+  </Target>  
+
   <Target Name="PublishToFileSystem"
         DependsOnTargets="PipelinePreDeployCopyAllFilesToOneFolder">
     <Error Condition="'$(PublishDestination)'==''"
